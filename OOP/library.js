@@ -164,7 +164,7 @@ class booking {
     this.guests = guests;
     this.nights = nights;
     this.room = room;
-    this.cashIn = false;
+    this.cashedIn = false;
     this.isProcessed = false
   }
 
@@ -173,16 +173,16 @@ class booking {
   }
 
   isValid() {
-    return this.room.canBook(this.guests)
+    return this.room.canBook(this.guests);
   }
 
   cashIn(guest) {
     let cost = this.calculateCost()
-    if (this.guests.include(guest) && guest.balance >= cost ) {
+    if (this.guests.includes(guest) && guest.balance >= cost ) {
       guest.balance -= cost;
-      this.cashIn = true;
+      this.cashedIn = true;
     }
-    else if (!this.guests.include(guest)) {
+    else if (!this.guests.includes(guest)) {
       return "Guest cannot cash-in on this booking";
     }
     else {
@@ -191,7 +191,7 @@ class booking {
   }
 
   process() {
-    if (this.isValid() && this.cashIn) {
+    if (this.isValid() && this.cashedIn) {
       this.room.book(this.guests);
       this.isProcessed = true;
     }
