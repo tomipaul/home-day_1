@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/tomipaul/home-day_1/issues"
   },
-  "homepage": "https://github.com/tomipaul/home-day_1#readme"
+  "homepage": "https://github.com/tomipaul/home-day_1#readme",
+  "dependencies": {
+    "jasmine": "^2.5.3"
+  }
 }
