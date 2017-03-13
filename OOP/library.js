@@ -18,11 +18,8 @@ class hotel {
     }
   }
 
-  bookRoom(guests, room, nights) {
-    /*Takes an array of guest object(s), a room object and an integer representing number of nights*/
-    if (this.rooms.includes(room)) {
-      /*create a booking object and add to the bookings property of hotel instance*/
-      let booking = new booking(guests, nights, room);
+  bookRoom(booking) {
+    if (this.rooms.includes(booking.room)) {
       this.bookings.push(booking);
     }
     return Object.assign({}, booking);
