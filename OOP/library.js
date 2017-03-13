@@ -49,7 +49,7 @@ class hotel {
   searchRoomByType(type) {
     let roomMatch = [];
     for (let room of this.rooms) {
-      if (room.type === type) {
+      if (room.roomType === type) {
         roomMatch.push(room);
       }
     }
