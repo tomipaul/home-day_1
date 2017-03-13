@@ -97,6 +97,7 @@ describe('hotel, room, single, doubleRoom, suite, guest and booking classes', fu
       expect(Booking.guests).toEqual([Guest]);
       expect(Booking.nights).toEqual(3);
       expect(Booking.cashIn).toBeDefined();
+      expect(typeof Booking.cashIn).toEqual('function');
     });
 
     it('Booking.calculateCost should return `30000` for cost', function() {
@@ -105,6 +106,21 @@ describe('hotel, room, single, doubleRoom, suite, guest and booking classes', fu
 
     it('Booking.isValid should return `true`', function() {
       expect(Booking.isValid()).toBe(true);
+    });
+
+    it('Booking.cashIn should return `Guest"s balance is not sufficient for cost`', function() {
+      expect(Booking.cashIn(Guest)).toEqual("Guest's balance is not sufficient for cost");
+      expect(Booking.cashedIn).toBe(false);
+    });
+
+    it('Booking.cashIn`', function() {
+      Guest.cashOut(100000);
+      it('should update Guest.balance to 70000', function() {
+        expect(Guest.balance).toEqual(70000);
+      })
+      it('should update Booking.cashedIn to true', function() {
+        expect(Booking.cashedIn).toBe(true);  
+      });
     });
 
   });
