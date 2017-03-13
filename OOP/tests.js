@@ -29,6 +29,17 @@ describe('hotel, room, single, doubleRoom, suite, guest and booking classes', fu
       expect(Hotel.rooms).toEqual([Room2]);
     });
 
+    it("searchRoomByType should return all rooms with type `type`", function() {
+      let Single = new classes.single(1);
+      let Double = new classes.doubleRoom(2);
+      let Suite = new classes.suite(3)
+      Hotel.addRooms([Single, Double, Suite]);
+      expect(Hotel.searchRoomByType('single')).toEqual([Single]);
+      expect(Hotel.searchRoomByType('double')).toEqual([Double]);
+      expect(Hotel.searchRoomByType('suite')).toEqual([Suite]);
+      expect(Hotel.searchRoomByType('general').length).toEqual(1);
+    })
+
     it("Hotel should have methods checkIn and checkOut`", function() {
       expect(Hotel.checkIn).toBeDefined();
       expect(Hotel.checkOut).toBeDefined();
@@ -195,6 +206,28 @@ describe('hotel, room, single, doubleRoom, suite, guest and booking classes', fu
         expect(Suite.canBook).toBeDefined();
       });
 
+    });
+
+  });
+  
+  describe('Guest makes a booking', function() {
+    let Guest1 = new classes.guest('Mr', 'Festus');
+    let Guest2 = new classes.guest('Mrs', 'Cinder');
+    let Single = new classes.single(1);
+    let Double = new classes.doubleRoom(2);
+    let Suite = new classes.suite(3);
+
+    it('create booking and process booking', function() {
+      let Booking = new classes.booking([Guest1,Guest2], 4, Double);
+      expect(Booking.isValid()).toEqual(true);
+      Guest1.cashOut(80000);
+      expect(Guest1.balance).toEqual(80000);
+      Booking.cashIn(Guest1);
+      expect(Booking.cashedIn).toBe(true);
+      Booking.process();
+      expect(Booking.isProcessed).toBe(true);
+      expect(Double.awaitingGuests).toEqual([Guest1, Guest2]);
+      expect(Double.isAvailable()).toBe(false);
     });
 
   });
