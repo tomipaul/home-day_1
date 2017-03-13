@@ -20,12 +20,22 @@ describe('hotel, room, single, doubleRoom, suite, guest and booking classes', fu
       expect(Hotel.removeRooms).toBeDefined();
     });
 
+    it("Hotel should addRoom and removeRoom", function() {
+      let Room1 = new classes.room(12);
+      let Room2 = new classes.room(13);
+      Hotel.addRooms([Room1, Room2]);
+      expect(Hotel.rooms).toEqual([Room1, Room2]);
+      Hotel.removeRooms([Room1]);
+      expect(Hotel.rooms).toEqual([Room2]);
+    });
+
     it("Hotel should have methods checkIn and checkOut`", function() {
       expect(Hotel.checkIn).toBeDefined();
       expect(Hotel.checkOut).toBeDefined();
     });
 
   });
+
 
   describe("create a room with a roomNo", function() {
     let Room = new classes.room(12);
@@ -78,7 +88,7 @@ describe('hotel, room, single, doubleRoom, suite, guest and booking classes', fu
       expect(Booking instanceof classes.booking).toBeTruthy();
     });
 
-    it('the guest should have properties guests, nights and method `cashIn`', function() {
+    it('the booking should have properties `guests`, `nights` and method `cashIn`', function() {
       expect(Booking.guests).toEqual([Guest]);
       expect(Booking.nights).toEqual(3);
       expect(Booking.cashIn).toBeDefined();
