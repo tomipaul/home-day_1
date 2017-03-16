@@ -1,4 +1,4 @@
-class hotel {
+class Hotel {
   constructor(name) {
     this.name = name;
     this.rooms = [];
@@ -6,16 +6,17 @@ class hotel {
   }
 
   addRooms(rooms) {
-    for (let room of rooms) {
+    for (const room of rooms) {
       this.rooms.push(room);
     }
     return Object.assign([], rooms);
   }
 
   removeRooms(rooms) {
-    for (let room of rooms) {
-      return this.rooms.splice(this.rooms.indexOf(room), 1);
+    for (const room of rooms) {
+      this.rooms.splice(this.rooms.indexOf(room), 1);
     }
+    return Object.assign([], rooms);
   }
 
   bookRoom(booking) {
@@ -29,26 +30,26 @@ class hotel {
     if (!room.hasOwnProperty('awaitingGuests')) {
       return `Room ${room.roomNo} has not been booked for any guests`;
     }
-    for (let guest of guests) {
+    for (const guest of guests) {
       if (room.awaitingGuests.includes(guest)) {
-        this.guests.push(guest);
-        this.awaitingGuests.splice(this.awaitingGuests.indexOf(guest), 1);
+        room.guests.push(guest);
+        room.awaitingGuests.splice(this.awaitingGuests.indexOf(guest), 1);
       }
     }
   }
 
   checkOut(guests, room) {
-    for (let guest of guests) {
-      this.guests.splice(this.guest.indexOf(guest), 1);
-      if (this.guests.length === 0) {
-        this.available = true;
+    for (const guest of guests) {
+      room.guests.splice(this.guest.indexOf(guest), 1);
+      if (room.guests.length === 0) {
+        room.available = true;
       }
     }
   }
 
   searchRoomByType(type) {
-    let roomMatch = [];
-    for (let room of this.rooms) {
+    const roomMatch = [];
+    for (const room of this.rooms) {
       if (room.roomType === type) {
         roomMatch.push(room);
       }
@@ -57,8 +58,8 @@ class hotel {
   }
 
   getAvailableRooms() {
-    let availableRoom = [];
-    for (let room of this.rooms) {
+    const availableRoom = [];
+    for (const room of this.rooms) {
       if (room.isAvailable()) {
         availableRoom.push(room);
       }
@@ -67,15 +68,15 @@ class hotel {
   }
 
   getAllGuests() {
-    let allGuests = [];
-    for (let room of this.rooms) {
+    const allGuests = [];
+    for (const room of this.rooms) {
       allGuests.concat(room.guests);
     }
     return allGuests;
   }
 }
 
-class room {
+class Room {
   constructor(roomNo) {
     this.roomNo = roomNo;
     this.available = true;
@@ -97,7 +98,7 @@ class room {
   }
 }
 
-class single extends room {
+class Single extends Room {
   constructor(roomNo) {
     super(roomNo);
     this.roomType = 'single';
@@ -108,13 +109,11 @@ class single extends room {
     if (this.isAvailable() && guest.length === 1) {
       return true;
     }
-    else {
-      return false;
-    }
+    return false;
   }
 }
 
-class doubleRoom extends room {
+class DoubleRoom extends Room {
   constructor(roomNo) {
     super(roomNo);
     this.roomType = 'double';
@@ -125,13 +124,11 @@ class doubleRoom extends room {
     if (this.isAvailable() && guest.length <= 2) {
       return true;
     }
-    else {
-      return false;
-    }
+    return false;
   }
 }
 
-class suite extends room {
+class Suite extends Room {
   constructor(roomNo) {
     super(roomNo);
     this.roomType = 'suite';
@@ -142,13 +139,11 @@ class suite extends room {
     if (this.isAvailable() && guest.length <= 3) {
       return true;
     }
-    else {
-      return false;
-    }
+    return false;
   }
 }
 
-class guest {
+class Guest {
   constructor(title, name) {
     this.title = title;
     this.name = name;
@@ -159,13 +154,13 @@ class guest {
   }
 }
 
-class booking {
+class Booking {
   constructor(guests, nights, room) {
     this.guests = guests;
     this.nights = nights;
     this.room = room;
     this.cashedIn = false;
-    this.isProcessed = false
+    this.isProcessed = false;
   }
 
   calculateCost() {
@@ -177,17 +172,15 @@ class booking {
   }
 
   cashIn(guest) {
-    let cost = this.calculateCost()
-    if (this.guests.includes(guest) && guest.balance >= cost ) {
+    const cost = this.calculateCost();
+    if (this.guests.includes(guest) && guest.balance >= cost) {
       guest.balance -= cost;
       this.cashedIn = true;
+      return this.cashedIn;
+    } else if (!this.guests.includes(guest)) {
+      return 'Guest cannot cash-in on this booking';
     }
-    else if (!this.guests.includes(guest)) {
-      return "Guest cannot cash-in on this booking";
-    }
-    else {
-      return "Guest's balance is not sufficient for cost";
-    }
+    return 'Guest"s balance is not sufficient for cost';
   }
 
   process() {
@@ -199,11 +192,11 @@ class booking {
 }
 
 module.exports = {
-  hotel: hotel,
-  room: room,
-  single: single,
-  doubleRoom: doubleRoom,
-  suite: suite,
-  guest: guest,
-  booking: booking
+  Hotel: Hotel,
+  Room: Room,
+  Single: Single,
+  DoubleRoom: DoubleRoom,
+  Suite: Suite,
+  Guest: Guest,
+  Booking: Booking,
 };
